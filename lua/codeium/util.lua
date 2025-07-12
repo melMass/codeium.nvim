@@ -112,9 +112,11 @@ end
 function M.get_other_documents(bufnr)
 	local other_documents = {}
 
-	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-		if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype ~= "" and buf ~= bufnr then
-			table.insert(other_documents, buf_to_codeium(buf))
+	if not config.options.skip_other_documents then
+		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+			if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype ~= "" and buf ~= bufnr then
+				table.insert(other_documents, buf_to_codeium(buf))
+			end
 		end
 	end
 	return other_documents
